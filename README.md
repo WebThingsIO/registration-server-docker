@@ -50,7 +50,7 @@ docker run \
     -p 443:4443 \
     -p 53:53 \
     -p 53:53/udp \
-    --restart always \
+    --restart unless-stopped \
     --name registration-server \
     registration-server
 ```
