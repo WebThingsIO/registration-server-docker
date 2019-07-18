@@ -25,9 +25,9 @@ RUN echo "deb http://ftp.debian.org/debian stretch-backports main" >> /etc/apt/s
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     touch /etc/inittab
 
-# Install powerdns 4.1.8
-RUN curl https://downloads.powerdns.com/releases/pdns-4.1.8.tar.bz2 | tar xvjf - && \
-    cd pdns-4.1.8 && \
+# Install PowerDNS
+RUN curl https://downloads.powerdns.com/releases/pdns-4.1.10.tar.bz2 | tar xvjf - && \
+    cd pdns-4.1.10 && \
     ./configure --with-modules=remote && \
     make && \
     make install 
