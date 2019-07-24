@@ -10,7 +10,9 @@ The setup relies on 3 components:
 Getting a full setup ready involves the following:
 - Build a Docker image.
 - Install nginx on the container's host.
-- Configure the DNS zone for the domain you want to use.
+- Install [geoipupdate](https://dev.maxmind.com/geoip/geoipupdate/) on the container's host and set up the crontab entry as the page describes.
+    - A sample crontab entry is: `49 6 * * 6 /usr/local/bin/geoipupdate -f /home/user/geoip/GeoIP.conf -d /home/user/config/geoip`
+- Configure the DNS zone for the domain you want to use. The NS records need to point to the IP address of your registration server.
 - Run the Docker image with the proper configuration.
 
 ## Docker configuration
@@ -57,6 +59,19 @@ docker run \
 
 ## Configuration files
 
+* Create your `GeoIP.conf` file (used in the crontab entry above) as such:
+```
+# The following AccountID and LicenseKey are required placeholders.
+# For geoipupdate versions earlier than 2.5.0, use UserId here instead of AccountID.
+AccountID 0
+LicenseKey 000000000000
+
+# Include one or more of the following edition IDs:
+# * GeoLite2-City - GeoLite 2 City
+# * GeoLite2-Country - GeoLite2 Country
+# For geoipupdate versions earlier than 2.5.0, use ProductIds here instead of EditionIDs.
+EditionIDs GeoLite2-Country
+```
 
 * Add the following server directives to your `nginx.conf` on the host:
 
