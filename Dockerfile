@@ -5,29 +5,15 @@ RUN echo "deb http://ftp.debian.org/debian stretch-backports main" >> /etc/apt/s
     apt-get dist-upgrade -y && \
     apt-get install  -y \
         build-essential \
-        bzip2 \
-        ca-certificates \
-        curl \
-        git \
-        libboost-all-dev \ 
-        libc6-dev \
-        libmariadbclient-dev-compat \
-        libpq-dev \
-        libsqlite3-dev \
-        libssl-dev \
-        libssl-dev \
-        libtool \
-        make \
-        pkgconf \
-        python \
+        libboost-all-dev \
         runit \
-        sqlite && \ 
+        sqlite && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     touch /etc/inittab
 
 # Install PowerDNS
-RUN curl https://downloads.powerdns.com/releases/pdns-4.1.10.tar.bz2 | tar xvjf - && \
-    cd pdns-4.1.10 && \
+RUN curl https://downloads.powerdns.com/releases/pdns-4.1.13.tar.bz2 | tar xvjf - && \
+    cd pdns-4.1.13 && \
     ./configure --with-modules=remote && \
     make && \
     make install 
