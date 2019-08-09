@@ -12,7 +12,14 @@ Getting a full setup ready involves the following:
 - Install nginx on the container's host.
 - Install [geoipupdate](https://dev.maxmind.com/geoip/geoipupdate/) on the container's host and set up the crontab entry as the page describes.
     - A sample crontab entry is: `49 6 * * 6 /usr/local/bin/geoipupdate -f /home/user/geoip/GeoIP.conf -d /home/user/config/geoip`
-- Configure the DNS zone for the domain you want to use. The NS records need to point to the IP address of your registration server.
+- Configure the DNS zone for the domain you want to use. The NS records need to point to your registration server.
+
+    ```
+    $ dig +short NS mozilla-iot.org
+    ns2.mozilla-iot.org.
+    ns1.mozilla-iot.org.
+    ```
+
 - Run the Docker image with the proper configuration.
 
 ## Docker configuration
