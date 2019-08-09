@@ -28,7 +28,7 @@ First, build the Docker image with `docker build -t registration-server .` from 
 
 ## Database setup
 
-* Install rust on the host: `curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly`
+* Install rust on the host: `curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable`
 * Install diesel: `cargo install diesel_cli`
 * Set up some temp variables:
   * `export db_type=sqlite`
@@ -37,6 +37,7 @@ First, build the Docker image with `docker build -t registration-server .` from 
     * `mysql`: this should be of the form `mysql://[[user]:[password]@]host[:port][/database]`
     * `postgres`: this should be of the form `postgres://[[user]:[password]@]host[:port][/database]`
     * `sqlite`: this should be a file path
+* Clone the registration server repo: `git clone https://github.com/mozilla-iot/registration_server && cd registration_server`
 * Set up your database for diesel: `diesel --database-url "${db_path}" setup --migration-dir "migrations/${db_type}"`
 * Set up the database tables: `diesel --database-url "${db_path}" migration --migration-dir "migrations/${db_type}" run`
 
