@@ -1,0 +1,4 @@
+#!/bin/sh
+
+exec 2>&1
+/usr/sbin/pdns_server --config-dir=/home/user/config

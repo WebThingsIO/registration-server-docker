@@ -10,9 +10,7 @@ The setup relies on 3 components:
 Getting a full setup ready involves the following:
 - Build a Docker image.
 - Install nginx on the container's host.
-- Install [geoipupdate](https://dev.maxmind.com/geoip/geoipupdate/) on the container's host and set up the crontab entry as the page describes.
-    - A sample crontab entry is: `49 6 * * 6 /usr/local/bin/geoipupdate -f /home/user/geoip/GeoIP.conf -d /home/user/config/geoip`
-- Configure the DNS zone for the domain you want to use. The NS records need to point to your registration server.
+- Configure your DNS zone for the domain you want to use. The NS records need to point to your registration server. This will need to be done through your DNS host or domain registrar.
 
     ```
     $ dig +short NS mozilla-iot.org
@@ -22,64 +20,17 @@ Getting a full setup ready involves the following:
 
 - Run the Docker image with the proper configuration.
 
-## Docker configuration
+## Docker build
 
 First, build the Docker image with `docker build -t registration-server .` from the source directory.
 
-## Database setup
-
-* Install rust on the host: `curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable`
-* Install diesel: `cargo install diesel_cli`
-* Set up some temp variables:
-  * `export db_type=sqlite`
-    * You can choose one of: `mysql`, `postgres`, `sqlite`
-  * `export db_path=./domains.sqlite`
-    * `mysql`: this should be of the form `mysql://[[user]:[password]@]host[:port][/database]`
-    * `postgres`: this should be of the form `postgres://[[user]:[password]@]host[:port][/database]`
-    * `sqlite`: this should be a file path
-* Clone the registration server repo: `git clone https://github.com/mozilla-iot/registration_server && cd registration_server`
-* Set up your database for diesel: `diesel --database-url "${db_path}" setup --migration-dir "migrations/${db_type}"`
-* Set up the database tables: `diesel --database-url "${db_path}" migration --migration-dir "migrations/${db_type}" run`
-
-## Running the Docker image
-
-You will have to mount a couple of directories and relay some ports for the Docker image to run properly:
-- Mount `/home/user/config` to a directory where you will store the configuration files.
-- Mount `/home/user/data` to a directory where the database will be stored (if using SQLite).
-
-Port 53 over TCP and UDP needs to be forwarded for PowerDNS. The ports used for the HTTP server and the tunnel also need to be forwarded.
-
-Example:
-
-```bash
-docker run \
-    -d \
-    -v /opt/docker/registration-server/config:/home/user/config \
-    -v /opt/docker/registration-server/data:/home/user/data \
-    -p 127.0.0.1:81:81 \
-    -p 443:4443 \
-    -p 53:53 \
-    -p 53:53/udp \
-    --restart unless-stopped \
-    --name registration-server \
-    registration-server
-```
+You can add the following build args:
+* `--build-arg "server_url=https://github.com/<your-fork>/registration_server"`
+* `--build-arg "server_branch=<your-branch>"`
+* `--build-arg "db_type=<db-type>"`
+    * `<db-type>` should be one of: mysql, sqlite, postgres
 
 ## Configuration files
-
-* Create your `GeoIP.conf` file (used in the crontab entry above) as such:
-```
-# The following AccountID and LicenseKey are required placeholders.
-# For geoipupdate versions earlier than 2.5.0, use UserId here instead of AccountID.
-AccountID 0
-LicenseKey 000000000000
-
-# Include one or more of the following edition IDs:
-# * GeoLite2-City - GeoLite 2 City
-# * GeoLite2-Country - GeoLite2 Country
-# For geoipupdate versions earlier than 2.5.0, use ProductIds here instead of EditionIDs.
-EditionIDs GeoLite2-Country
-```
 
 * Add the following server directives to your `nginx.conf` on the host:
 
@@ -143,7 +94,7 @@ server {
 daemon=no
 local-port=53
 local-address=0.0.0.0
-socket-dir=.
+socket-dir=/run/
 launch=remote
 remote-connection-string=unix:path=/tmp/pdns_tunnel.sock
 write-pid=no
@@ -189,7 +140,7 @@ txt_record = ""
 
   [pdns.geoip]
   default = "5.6.7.8"
-  database = "/home/user/geoip/GeoLite2-Country.mmdb"
+  database = "/var/lib/GeoIP/GeoLite2-Country.mmdb"
 
     [pdns.geoip.continent]
     AF = "1.2.3.4"
@@ -240,4 +191,28 @@ error_page = """<!DOCTYPE html>
 
 By default the PageKite tunnel listens on port 4443.
 
-Once you have all your configuration files ready, you can start the container as instructed above.
+Once you have all your configuration files ready, you can start the container as instructed below.
+
+## Running the Docker image
+
+You will have to mount a couple of directories and relay some ports for the Docker image to run properly:
+- Mount `/home/user/config` to a directory where you will store the configuration files.
+- Mount `/home/user/data` to a directory where the database will be stored (if using SQLite).
+
+Port 53 over TCP and UDP needs to be forwarded for PowerDNS. The ports used for the HTTP server and the tunnel also need to be forwarded.
+
+Example:
+
+```bash
+docker run \
+    -d \
+    -v /opt/docker/registration-server/config:/home/user/config \
+    -v /opt/docker/registration-server/data:/home/user/data \
+    -p 127.0.0.1:81:81 \
+    -p 443:4443 \
+    -p 53:53 \
+    -p 53:53/udp \
+    --restart unless-stopped \
+    --name registration-server \
+    registration-server
+```
