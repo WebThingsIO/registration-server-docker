@@ -1,4 +1,5 @@
 #!/bin/sh
 
+export RUST_LOG=${RUST_LOG:-info}
 exec 2>&1
-RUST_LOG=info /home/user/registration_server/target/release/main --config-file=/home/user/config/config.toml
+exec /home/user/registration_server/target/release/main --config-file=/home/user/config/config.toml

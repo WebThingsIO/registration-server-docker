@@ -1,4 +1,4 @@
 #!/bin/sh
 
 exec 2>&1
-cron -f -l
+exec /usr/sbin/cron -f -l
