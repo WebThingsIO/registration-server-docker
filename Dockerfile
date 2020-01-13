@@ -38,6 +38,7 @@ RUN set -x && \
 USER root
 ADD init /
 ADD etc/GeoIP.conf /etc/
+ADD etc/cron.weekly/geoipupdate /etc/cron.weekly/
 ADD etc/service /etc/service
 
 RUN sed -i "s/{{db_type}}/${db_type}/" /init
