@@ -1,6 +1,6 @@
-FROM rust:stretch
+FROM rust:buster
 
-RUN echo "deb http://deb.debian.org/debian stretch-backports main" >> /etc/apt/sources.list && \
+RUN echo "deb http://deb.debian.org/debian buster-backports main" >> /etc/apt/sources.list && \
     sed -i 's/ main$/ main contrib/g' /etc/apt/sources.list && \
     apt update && \
     apt dist-upgrade -y && \
@@ -37,7 +37,6 @@ RUN set -x && \
 
 USER root
 ADD init /
-ADD etc/GeoIP.conf /etc/
 ADD etc/cron.weekly/geoipupdate /etc/cron.weekly/
 ADD etc/service /etc/service
 

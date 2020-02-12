@@ -114,12 +114,8 @@ loglevel=4
 [general]
 host = "0.0.0.0"
 http_port = 81
-https_port = 0
 domain = "mydomain.org"
 db_path = "/home/user/data/domains.sqlite"
-# Uncomment to use TLS
-# identity_directory = "/home/user/config"
-# identity_password = "mypassword"
 
 [pdns]
 api_ttl = 1
@@ -187,6 +183,23 @@ error_page = """<!DOCTYPE html>
   </body>
 </html>"""
 
+```
+
+* The `$CONFIG_DIR/GeoIP.conf` file holds the configuration for geoipupdate. This is only necessary if you're using geoip in the registration server.
+```
+# GeoIP.conf file for `geoipupdate` program, for versions >= 3.1.1.
+# Used to update GeoIP databases from https://www.maxmind.com.
+# For more information about this config file, visit the docs at
+# https://dev.maxmind.com/geoip/geoipupdate/.
+
+# `AccountID` is from your MaxMind account.
+AccountID <your id>
+
+# `LicenseKey` is from your MaxMind account
+LicenseKey <your key>
+
+# `EditionIDs` is from your MaxMind account.
+EditionIDs GeoLite2-Country
 ```
 
 By default the PageKite tunnel listens on port 4443.
