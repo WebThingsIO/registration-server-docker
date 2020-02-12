@@ -9,11 +9,17 @@ db_path=$(
     sed -E -e 's/^\s+//g' -e 's/\s+$//g' -e 's/^"//' -e 's/"$//'
 )
 
-# set up the database
-/usr/local/cargo/bin/diesel --database-url "${db_path}" setup --migration-dir "/home/user/registration_server/migrations/{{db_type}}"
+# get the initial GeoIP database, if configured
+if [ -f /home/user/config/GeoIP.conf ]; then
+    cp /home/user/config/GeoIP.conf /etc/GeoIP.conf
+    /usr/bin/geoipupdate
+fi
 
-# get the initial GeoIP database
-/usr/bin/geoipupdate
+# set up the database
+/usr/local/cargo/bin/diesel \
+    --database-url "${db_path}" \
+    setup \
+    --migration-dir "/home/user/registration_server/migrations/{{db_type}}"
 
 # run all of our background services
 exec /usr/bin/runsvdir /etc/service
