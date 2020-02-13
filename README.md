@@ -100,7 +100,7 @@ You can add the following build args:
   be consistent with the registration configuration to connect on the correct
   socket for the remote queries:
 
-    ```
+    ```ini
     daemon=no
     local-port=53
     local-address=0.0.0.0
@@ -120,7 +120,7 @@ You can add the following build args:
 * The `$CONFIG_DIR/config.toml` file holds the registration server
   configuration. Here's a sample consistent with the `pdns.conf` shown above:
 
-    ```
+    ```toml
     [general]
     host = "0.0.0.0"
     http_port = 81
