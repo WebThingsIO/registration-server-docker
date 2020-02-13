@@ -49,3 +49,4 @@ ENTRYPOINT ["/init"]
 # - config.toml   : registration server configuration
 # - pagekite.conf : PageKite configuration
 # - pdns.conf     : PowerDNS configuration
+# - GeoIP.conf    : (Optional) geoipupdate configuration
