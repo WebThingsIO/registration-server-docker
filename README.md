@@ -1,16 +1,20 @@
 # Docker Image for mozilla-iot/registration_server
 
-This Docker image provides an easily deployable [registration server](https://github.com/mozilla-iot/registration_server) for the WebThings Gateway.
+This Docker image provides an easily deployable
+[registration server](https://github.com/mozilla-iot/registration_server) for
+the WebThings Gateway.
 
 The setup relies on 3 components:
-- The registration server
-- A [PowerDNS](https://powerdns.com/) server
-- [PageKite](https://pagekite.net/)
+* The registration server
+* A [PowerDNS](https://powerdns.com/) server
+* [PageKite](https://pagekite.net/)
 
 Getting a full setup ready involves the following:
-- Build a Docker image.
-- Install nginx on the container's host.
-- Configure your DNS zone for the domain you want to use. The NS records need to point to your registration server. This will need to be done through your DNS host or domain registrar.
+* Build a Docker image.
+* Install nginx on the container's host.
+* Configure your DNS zone for the domain you want to use. The NS records need
+  to point to your registration server. This will need to be done through your
+  DNS host or domain registrar.
 
     ```
     $ dig +short NS mozilla-iot.org
@@ -18,11 +22,12 @@ Getting a full setup ready involves the following:
     ns1.mozilla-iot.org.
     ```
 
-- Run the Docker image with the proper configuration.
+* Run the Docker image with the proper configuration.
 
 ## Docker build
 
-First, build the Docker image with `docker build -t registration-server .` from the source directory.
+First, build the Docker image with `docker build -t registration-server .` from
+the source directory.
 
 You can add the following build args:
 * `--build-arg "server_url=https://github.com/<your-fork>/registration_server"`
@@ -80,7 +85,8 @@ server {
 }
 ```
 
-* The `$CONFIG_DIR/pagekite.conf` file is used to set any options for PageKite. Here's a full example:
+* The `$CONFIG_DIR/pagekite.conf` file is used to set any options for PageKite.
+  Here's a full example:
 ```
 --isfrontend
 --ports=4443
@@ -89,7 +95,9 @@ server {
 --nullui
 ```
 
-* The `$CONFIG_DIR/pdns.conf` is the PowerDNS configuration file. It needs to be consistent with the registration configuration to connect on the correct socket for the remote queries:
+* The `$CONFIG_DIR/pdns.conf` is the PowerDNS configuration file. It needs to
+  be consistent with the registration configuration to connect on the correct
+  socket for the remote queries:
 ```
 daemon=no
 local-port=53
@@ -107,7 +115,8 @@ loglevel=4
 #cache-ttl=0
 ```
 
-* The `$CONFIG_DIR/config.toml` file holds the registration server configuration. Here's a sample consistent with the `pdns.conf` shown above:
+* The `$CONFIG_DIR/config.toml` file holds the registration server
+  configuration. Here's a sample consistent with the `pdns.conf` shown above:
 ```
 # Configuration used for tests.
 
@@ -185,7 +194,8 @@ error_page = """<!DOCTYPE html>
 
 ```
 
-* The `$CONFIG_DIR/GeoIP.conf` file holds the configuration for geoipupdate. This is only necessary if you're using geoip in the registration server.
+* The `$CONFIG_DIR/GeoIP.conf` file holds the configuration for geoipupdate.
+  This is only necessary if you're using geoip in the registration server.
 ```
 # GeoIP.conf file for `geoipupdate` program, for versions >= 3.1.1.
 # Used to update GeoIP databases from https://www.maxmind.com.
@@ -204,15 +214,20 @@ EditionIDs GeoLite2-Country
 
 By default the PageKite tunnel listens on port 4443.
 
-Once you have all your configuration files ready, you can start the container as instructed below.
+Once you have all your configuration files ready, you can start the container
+as instructed below.
 
 ## Running the Docker image
 
-You will have to mount a couple of directories and relay some ports for the Docker image to run properly:
-- Mount `/home/user/config` to a directory where you will store the configuration files.
-- Mount `/home/user/data` to a directory where the database will be stored (if using SQLite).
+You will have to mount a couple of directories and relay some ports for the
+Docker image to run properly:
+* Mount `/home/user/config` to a directory where you will store the
+  configuration files.
+* Mount `/home/user/data` to a directory where the database will be stored (if
+  using SQLite).
 
-Port 53 over TCP and UDP needs to be forwarded for PowerDNS. The ports used for the HTTP server and the tunnel also need to be forwarded.
+Port 53 over TCP and UDP needs to be forwarded for PowerDNS. The ports used for
+the HTTP server and the tunnel also need to be forwarded.
 
 Example:
 
