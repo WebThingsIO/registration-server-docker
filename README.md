@@ -100,6 +100,8 @@ container at `/home/user/config`. Here's a full example:
 --protos=https
 --authdomain=mydomain.org
 --nullui
+# Uncomment the following to quiet logging:
+#--logfile=/dev/null
 ```
 
 ### PowerDNS
