@@ -13,8 +13,9 @@ Getting a full setup ready involves the following:
 * Build a Docker image.
 * Install nginx on the container's host.
 * Configure your DNS zone for the domain you want to use. The NS records need
-  to point to your registration server. This will need to be done through your
-  DNS host or domain registrar.
+  to point to your registration server, i.e. the same IP address that will end
+  up serving `api.mydomain.org`. This will need to be done through your DNS
+  host or domain registrar.
 
     ```
     $ dig +short NS mozilla-iot.org
@@ -132,8 +133,10 @@ loglevel=4
 
 The `$CONFIG_DIR/config.toml` file holds the registration server
 configuration, where `$CONFIG_DIR` is the directory you'll end up sharing into
-your Docker container at `/home/user/config`. Here's a sample consistent with
-the `pdns.conf` shown above:
+your Docker container at `/home/user/config`. You should take a look at each
+line and ensure that the values are proper for your domain. In particular, you
+should look at anything with `mydomain.org` or an IP address. Here's a sample
+consistent with the `pdns.conf` shown above:
 
 ```toml
 [general]
@@ -161,8 +164,12 @@ txt_record = ""
 
   [pdns.geoip]
   default = "5.6.7.8"
+
+  # If you're not using geoip, the value should be ""
   database = "/var/lib/GeoIP/GeoLite2-Country.mmdb"
 
+    # If you're not using geoip, you should comment out all of the continents,
+    # but keep the section header.
     [pdns.geoip.continent]
     AF = "1.2.3.4"
     AN = "2.3.4.5"
