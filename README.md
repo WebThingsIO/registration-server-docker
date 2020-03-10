@@ -263,6 +263,8 @@ docker run \
     -p 443:4443 \
     -p 53:53 \
     -p 53:53/udp \
+    --log-opt max-size=1m \
+    --log-opt max-file=10 \
     --restart unless-stopped \
     --name registration-server \
     registration-server
