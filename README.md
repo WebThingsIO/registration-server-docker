@@ -151,7 +151,8 @@ dns_ttl = 86400
 tunnel_ttl = 60
 socket_path = "/tmp/pdns_tunnel.sock"
 caa_record = "0 issue \"letsencrypt.org\""
-mx_record = ""
+# Uncomment to set an MX record
+# mx_record = ""
 ns_records = [
   [ "ns1.mydomain.org.", "5.6.7.8" ],
   [ "ns2.mydomain.org.", "4.5.6.7" ],
@@ -160,12 +161,13 @@ ns_records = [
 # psl_record = "https://github.com/publicsuffix/list/pull/XYZ"
 # Check your DNS configuration to fill in this field.
 soa_record = "ns1.mydomain.org. dns-admin.mydomain.org. 2018082801 900 900 1209600 60"
-txt_record = ""
+# Uncomment to set a TXT record
+# txt_record = ""
 
   [pdns.geoip]
   default = "5.6.7.8"
 
-  # If you're not using geoip, the value should be ""
+  # If you're not using geoip, you should comment out the next line.
   database = "/var/lib/GeoIP/GeoLite2-Country.mmdb"
 
     # If you're not using geoip, you should comment out all of the continents,
