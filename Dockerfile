@@ -9,6 +9,7 @@ RUN echo "deb http://deb.debian.org/debian buster-backports main" >> /etc/apt/so
         geoipupdate \
         pdns-backend-remote \
         pdns-server \
+        python-six \
         runit && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     touch /etc/inittab
