@@ -271,3 +271,19 @@ docker run \
     --name registration-server \
     registration-server
 ```
+
+## Configuring the Gateway
+
+To configure the WebThings Gateway to use your custom registration server,
+after doing all the steps above, you can modify your gateway's configuration in
+`~/.mozilla-iot/config/local.json` as follows:
+
+```json
+{
+  "ssltunnel": {
+    "registration_endpoint": "https://api.mydomain.org:8443",
+    "domain": "mydomain.org",
+    "certemail": "certificate@mydomain.org"
+  }
+}
+```
