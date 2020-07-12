@@ -143,6 +143,10 @@ consistent with the `pdns.conf` shown above:
 host = "0.0.0.0"
 http_port = 81
 domain = "mydomain.org"
+
+# For SQLite, db_path should just be a file path.
+# For MySQL, db_path should be of the form: mysql://[user[:password]@]host[:port][/database_name]
+# For PostgreSQL, db_path should be of the form: postgres://[user[:password]@]host[:port][/database_name]
 db_path = "/home/user/data/domains.sqlite"
 
 [pdns]
