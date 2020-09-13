@@ -144,9 +144,9 @@ host = "0.0.0.0"
 http_port = 81
 domain = "mydomain.org"
 
-# For SQLite, db_path should just be a file path.
-# For MySQL, db_path should be of the form: mysql://[user[:password]@]host[:port][/database_name]
-# For PostgreSQL, db_path should be of the form: postgres://[user[:password]@]host[:port][/database_name]
+# For SQLite: db_path should just be a file path.
+# For MySQL: db_path should be of the form: mysql://[user[:password]@]host[:port][/database_name]
+# For PostgreSQL: db_path should be of the form: postgres://[user[:password]@]host[:port][/database_name]
 db_path = "/home/user/data/domains.sqlite"
 
 [pdns]
@@ -154,19 +154,19 @@ api_ttl = 1
 dns_ttl = 86400
 tunnel_ttl = 60
 socket_path = "/tmp/pdns_tunnel.sock"
-caa_record = "0 issue \"letsencrypt.org\""
-# Uncomment to set an MX record
-# mx_record = ""
+caa_records = [
+  "0 issue \"letsencrypt.org\"",
+]
+mx_records = []
 ns_records = [
   [ "ns1.mydomain.org.", "5.6.7.8" ],
   [ "ns2.mydomain.org.", "4.5.6.7" ],
 ]
-# Uncomment to set a PSL authentication record
-# psl_record = "https://github.com/publicsuffix/list/pull/XYZ"
+txt_records = []
 # Check your DNS configuration to fill in this field.
 soa_record = "ns1.mydomain.org. dns-admin.mydomain.org. 2018082801 900 900 1209600 60"
-# Uncomment to set a TXT record
-# txt_record = ""
+# Uncomment to set an IP address to resolve www.mydomain.org and domain.org to.
+# www_address = ""
 
   [pdns.geoip]
   default = "5.6.7.8"

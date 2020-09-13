@@ -1,5 +1,6 @@
 FROM rust:buster
 
+ARG DEBIAN_FRONTEND=noninteractive
 RUN echo "deb http://deb.debian.org/debian buster-backports main" >> /etc/apt/sources.list && \
     sed -i 's/ main$/ main contrib/g' /etc/apt/sources.list && \
     apt update && \
