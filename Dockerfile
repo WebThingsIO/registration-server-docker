@@ -23,7 +23,7 @@ RUN useradd -m -d /home/user -p user user
 RUN chown -R user /home/user
 
 ARG server_url
-ENV server_url ${server_url:-https://github.com/mozilla-iot/registration_server}
+ENV server_url ${server_url:-https://github.com/WebThingsIO/registration_server}
 ARG server_branch
 ENV server_branch ${server_branch:-master}
 ARG db_type

@@ -1,7 +1,7 @@
-# Docker Image for mozilla-iot/registration_server
+# Docker Image for WebThingsIO/registration_server
 
 This Docker image provides an easily deployable
-[registration server](https://github.com/mozilla-iot/registration_server) for
+[registration server](https://github.com/WebThingsIO/registration_server) for
 the WebThings Gateway.
 
 The setup relies on 3 components:
@@ -190,7 +190,7 @@ server = "mail.gandi.net"
 user = "accounts@mydomain.org"
 password = "******"
 sender = "accounts@mydomain.org"
-reclamation_title = "Reclaim your Mozilla WebThings Gateway Domain"
+reclamation_title = "Reclaim your WebThings Gateway Domain"
 reclamation_body = """Hello,
 <br>
 <br>
@@ -198,11 +198,11 @@ Your reclamation token is: {token}
 <br>
 <br>
 If you did not request to reclaim your gateway domain, you can ignore this email."""
-confirmation_title = "Welcome to your Mozilla WebThings Gateway"
+confirmation_title = "Welcome to your WebThings Gateway"
 confirmation_body = """Hello,
 <br>
 <br>
-Welcome to your Mozilla WebThings Gateway! To confirm your email address, navigate to <a href="{link}">{link}</a>.
+Welcome to your WebThings Gateway! To confirm your email address, navigate to <a href="{link}">{link}</a>.
 <br>
 <br>
 Your gateway can be accessed at <a href="https://{domain}">https://{domain}</a>."""
